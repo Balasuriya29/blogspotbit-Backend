@@ -1,3 +1,5 @@
 {
-    "jwtPrivateKey":"BlogSpotBIT_jwtPrivateKey"
+    "jwtPrivateKey":"BlogSpotBIT_jwtPrivateKey",
+    "DBUserName": "BlogSpotBIT_DBUserName",
+    "DBPassword": "BlogSpotBIT_DBPassword"
 }
