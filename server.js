@@ -19,7 +19,7 @@ app.use('/api/users', users);
 app.use('/api/users', auth);
 
 //Connection to MongoDB
-const db_string = `mongodb+srv://${config.get('BlogSpotBIT_DBUserName')}:${config.get('BlogSpotBIT_DBPassword')}@cluster0.dfr13.mongodb.net/sample?retryWrites=true&w=majority`;
+const db_string = `mongodb+srv://${config.get('DBUserName')}:${config.get('DBPassword')}@cluster0.dfr13.mongodb.net/sample?retryWrites=true&w=majority`;
 connection.connectDB(db_string);
 
 const PORT = process.env.PORT || 3000;
