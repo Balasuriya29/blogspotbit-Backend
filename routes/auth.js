@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('config');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
