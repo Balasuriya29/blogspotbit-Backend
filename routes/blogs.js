@@ -61,7 +61,10 @@ router.put("/dislike/:id", async (req, res) => {
 });
 
 //DB MY BLOGS SHOW - API CALL 6
-router.get("/showmyblogs", async (req,res) => {
-    
+router.get("/showmyblogs/:id", async (req,res) => {
+    const blogs = await Blog.Blog.find({
+        author_id: req.params.id
+    })
+    res.send(blogs)
 });
 module.exports = router;
