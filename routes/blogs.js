@@ -45,9 +45,9 @@ router.put("/like/:id", async (req, res) => {
     res.send('sucess')
 });
 
-//DB UPDATE DISLIKE BY ID - API CALL 4
+//DB UPDATE DISLIKE BY ID - API CALL 5
 router.put("/dislike/:id", async (req, res) => {
-    const blog = await Blog.Blog.updateOne(
+    await Blog.Blog.updateOne(
         {
             _id:req.params.id
         }
@@ -60,4 +60,8 @@ router.put("/dislike/:id", async (req, res) => {
     res.send('sucess')
 });
 
+//DB MY BLOGS SHOW - API CALL 6
+router.get("/showmyblogs", async (req,res) => {
+    
+});
 module.exports = router;

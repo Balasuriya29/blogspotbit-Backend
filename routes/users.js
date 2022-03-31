@@ -53,4 +53,12 @@ router.put('/liked_blogs/:uemail', async (req, res) => {
    res.send('success');
 });
 
+//DB DELETE USER BLOGS - API CAll 4
+router.get('/delete', auth , async (req, res) => {
+    const user = await AuthUser.AuthUser.deleteOne({
+       _id : req.user._id
+    });
+    res.send(user);
+});
+
 module.exports = router;
