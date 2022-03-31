@@ -26,6 +26,7 @@ function validateBlog(blog) {
         author_id: Joi.string().min(5).max(50).required(),
         author_name: Joi.string().min(5).max(50).required(),
         content: Joi.string().min(5).max(1024).required(), 
+        url: Joi.string().min(5).required(), 
     });
 
     return tempschema.validate(blog);
