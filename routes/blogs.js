@@ -23,29 +23,41 @@ router.get("/show", async (req, res) => {
 });
 
 //DB DELETE BY ID - API CALL 3
-router.get("/delete/:id", async (req, res) => {
+router.get("/delete/:id", auth, async (req, res) => {
     const blog = await Blog.Blog.deleteOne({
-        blog_id : req.params.id
+        _id : parseInt(req.params.id)
     });
     res.send(blog);
 });
 
 //DB UPDATE LIKE BY ID - API CALL 4
 router.put("/like/:id", async (req, res) => {
-    const blog = await Blog.Blog.findByIdAndUpdate(
+    const blog = await Blog.Blog.updateOne(
         {
-            blog_id:req.params.id
-        },
+            _id:req.params.id
+        }
+        ,
         {
             $inc: {
                 likes: 1
             }
-        },
-        (err, result) => {
-            if (err) throw err
-            res.send(result)
         });
-    res.send(blog);
+    res.send('sucess')
+});
+
+//DB UPDATE DISLIKE BY ID - API CALL 4
+router.put("/dislike/:id", async (req, res) => {
+    const blog = await Blog.Blog.updateOne(
+        {
+            _id:req.params.id
+        }
+        ,
+        {
+            $inc: {
+                likes: -1
+            }
+        });
+    res.send('sucess')
 });
 
 module.exports = router;

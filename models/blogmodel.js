@@ -7,10 +7,12 @@ const Joi = require("joi");
 const blogSchema = new mongoose.Schema({
     _id: Number,
     title: String,
-    author: String,
+    author_id: String,
+    author_name: String,
     content: String,
-    likes: Number,
+    likes: {type: Number, default: parseInt(0)},
     date: {type: Date, default: Date.now},
+    url: String,
 }, { _id: false });
 blogSchema.plugin(AutoIncrement);
 

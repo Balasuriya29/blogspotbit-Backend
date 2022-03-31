@@ -4,9 +4,12 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const AuthUser = require('../models/usermodel');
 const ValidateAuthUser = require('../models/usermodel');
+const Blog = require('../models/blogmodel');
+const auth = require('../middleware/auth');
+const adminauth = require('../middleware/adminauth');
 
 //DB POST AuthUSER - API CALL 1
-router.post("/add", async (req, res) => {    
+router.post("/add/:id", async (req, res) => {    
     const { error } = ValidateAuthUser.ValidateAuthUser(req.body);
     if (error) return res.status(404).send(error.details[0].message);
 
@@ -19,13 +22,35 @@ router.post("/add", async (req, res) => {
     authuser = await AuthUser.AuthUser({
         name: req.body.name,
         email: req.body.email,
-        password: hashed
+        password: hashed,
+        isAdmin: req.body.isAdmin
     });
     
     const token = authuser.generateAuthToken();
 
     await authuser.save();
-    res.header('x-auth-token', token).send(_.pick(authuser, ['_id', 'name', 'email']));
+    res.header('x-auth-token', token).send(_.pick(authuser, ['_id', 'name', 'email', 'isAdmin']));
+});
+
+//DB GET CURRENT USER - API CALL 2
+router.get('/me', auth, async (req, res) => {
+    const user = await AuthUser.AuthUser.findById(req.user._id).select('-password');
+    res.send(user);
+});
+
+//DB PUT LIKED BLOGS - API CALL 3
+router.put('/liked_blogs/:uemail', async (req, res) => {
+    const user = await AuthUser.AuthUser.updateOne(
+        {
+            email: req.params.uemail
+        },
+        {
+            $push: {
+                liked_blogs : req.body._id
+            }
+        });
+
+   res.send('success');
 });
 
 module.exports = router;
