@@ -3,6 +3,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 const Blog = require('../models/blogmodel');
 const ValidateBlog = require('../models/blogmodel');
+const AuthUser = require('../models/usermodel');
 
 //DB POST - API CALL 1
 router.post("/add", auth ,async (req,res) => {
@@ -67,4 +68,17 @@ router.get("/showmyblogs/:id", async (req,res) => {
     })
     res.send(blogs)
 });
+
+//DB SAVED BLOGS SHOW - API CALL 7
+router.get("/showsavedblogs", auth, async (req,res) => {
+    const user = await AuthUser.AuthUser.findById({
+        _id : req.user._id
+    })
+
+    // const blogs = await (await Blog.Blog.find()).forEach((ele) => {console.log(ele)})
+
+    res.send(user);
+});
+
+
 module.exports = router;

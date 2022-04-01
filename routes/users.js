@@ -39,25 +39,77 @@ router.get('/me', auth, async (req, res) => {
 });
 
 //DB PUT LIKED BLOGS - API CALL 3
-router.put('/liked_blogs/:uemail', async (req, res) => {
+router.put('/liked/:id', auth,  async (req, res) => {
     const user = await AuthUser.AuthUser.updateOne(
         {
-            email: req.params.uemail
+            _id: req.user._id
         },
         {
             $push: {
-                liked_blogs : req.body._id
+                liked_blogs : req.params.id
             }
         });
 
-   res.send('success');
+   res.send(user);
 });
 
-//DB DELETE USER BLOGS - API CAll 4
+//DB PUT LIKED BLOGS - API CALL 4
+router.put('/rmliked/:id', auth,  async (req, res) => {
+    const user = await AuthUser.AuthUser.updateOne(
+        {
+            _id: req.user._id
+        },
+        {
+            $pull: {
+                liked_blogs : req.params.id
+            }
+        });
+
+   res.send(user);
+});
+
+//DB DELETE USER BLOGS - API CAll 5
 router.get('/delete', auth , async (req, res) => {
     const user = await AuthUser.AuthUser.deleteOne({
        _id : req.user._id
     });
+
+    if(!user) return res.status(404).send("Nothing found");
+
+    res.send(user);
+});
+
+//DB UPDATE SAVED BLOGS ID - API CALL 6
+router.put("/saved/:id", auth, async (req, res) => {
+    const user = await AuthUser.AuthUser.updateOne(
+        {
+            _id : req.user._id
+        },
+
+        {
+            $push: {
+                saved : req.params.id
+            }
+        }
+    )
+    if(!user) return res.status(404).send("Nothing found");
+    res.send(user);
+});
+
+//DB UPDATE SAVED BLOGS ID - API CALL 7
+router.put("/rmsaved/:id", auth, async (req, res) => {
+    const user = await AuthUser.AuthUser.updateOne(
+        {
+            _id : req.user._id
+        },
+
+        {
+            $pull: {
+                saved : req.params.id
+            }
+        }
+    )
+    if(!user) return res.status(404).send("Nothing found");
     res.send(user);
 });
 
