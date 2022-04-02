@@ -20,17 +20,7 @@ router.post("/add", auth ,async (req,res) => {
 
 //DB GET ALL - API CALL 2
 router.get("/show", async (req, res) => {
-    const tempblogs = await Blog.Blog.find();
-    // var count = -1
-    // const blogs = []
-    // tempblogs.forEach(async ele => {
-    //     count+=1;
-    //     const user = await AuthUser.AuthUser.findOne({
-    //         _id : tempblogs[count].author_id
-    //     })
-
-    //     blogs.push
-    // });
+    const blogs = await Blog.Blog.find();
 
     res.send(blogs);
 });
