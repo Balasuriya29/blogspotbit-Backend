@@ -8,11 +8,9 @@ const blogSchema = new mongoose.Schema({
     _id: Number,
     title: String,
     author_id: String,
-    author_name: String,
     content: String,
     likes: {type: Number, default: parseInt(0)},
     date: {type: Date, default: Date.now},
-    url: String,
 }, { _id: false });
 blogSchema.plugin(AutoIncrement);
 
@@ -24,9 +22,7 @@ function validateBlog(blog) {
     const tempschema = Joi.object({
         title: Joi.string().min(5).max(100).required(),
         author_id: Joi.string().min(5).max(50).required(),
-        author_name: Joi.string().min(5).max(50).required(),
         content: Joi.string().min(5).max(1024).required(), 
-        url: Joi.string().min(5).required(), 
     });
 
     return tempschema.validate(blog);

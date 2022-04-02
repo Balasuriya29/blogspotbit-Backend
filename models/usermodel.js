@@ -25,9 +25,10 @@ const AuthUserSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 1024
     },
-    saved: [ String ],
+    saved: [ Number ],
     isAdmin: {type: Boolean, default: false},
-    liked_blogs: [ Number ]
+    liked_blogs: [ Number ],
+    url: String,
 });
 
 //Method for Token Generation

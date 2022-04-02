@@ -1,4 +1,5 @@
 const express = require('express');
+const { result } = require('lodash');
 const auth = require('../middleware/auth');
 const router = express.Router();
 const Blog = require('../models/blogmodel');
@@ -19,7 +20,18 @@ router.post("/add", auth ,async (req,res) => {
 
 //DB GET ALL - API CALL 2
 router.get("/show", async (req, res) => {
-    const blogs = await Blog.Blog.find();
+    const tempblogs = await Blog.Blog.find();
+    // var count = -1
+    // const blogs = []
+    // tempblogs.forEach(async ele => {
+    //     count+=1;
+    //     const user = await AuthUser.AuthUser.findOne({
+    //         _id : tempblogs[count].author_id
+    //     })
+
+    //     blogs.push
+    // });
+
     res.send(blogs);
 });
 
@@ -43,7 +55,7 @@ router.put("/like/:id", async (req, res) => {
                 likes: 1
             }
         });
-    res.send('sucess')
+    res.send('success')
 });
 
 //DB UPDATE DISLIKE BY ID - API CALL 5
@@ -58,7 +70,7 @@ router.put("/dislike/:id", async (req, res) => {
                 likes: -1
             }
         });
-    res.send('sucess')
+    res.send('success')
 });
 
 //DB MY BLOGS SHOW - API CALL 6
@@ -74,11 +86,21 @@ router.get("/showsavedblogs", auth, async (req,res) => {
     const user = await AuthUser.AuthUser.findById({
         _id : req.user._id
     })
+    
+    const blogs = []
 
-    // const blogs = await (await Blog.Blog.find()).forEach((ele) => {console.log(ele)})
-
-    res.send(user);
+    user.saved.forEach(async element => {
+        const blog = await Blog.Blog.findOne({
+            _id : element
+        })
+        if(blog){
+            blogs.push(blog)
+            const len = user.saved.length - 1;
+            if(len == blogs.length){
+                res.send(blogs);
+            }
+        }
+    });
 });
-
 
 module.exports = router;
