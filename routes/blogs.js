@@ -96,9 +96,12 @@ router.get("/showsavedblogs", auth, async (req,res) => {
             console.log(blogs);
             const len = user.saved.length;
             if(len == blogs.length){
-                res.send(blogs);
+                return res.send(blogs);
 
             }
+        }
+        else{
+            res.status(404).send("No Saved Blogs")
         }
     });
     
