@@ -49,7 +49,7 @@ connection.connectDB(db_string);
 
 //Default Route
 app.get("/", (req,res) => {
-    res.send("It is Working Perfectly");
+    res.send("Everything is Working Perfectly!!!");
 });
 
 const PORT = process.env.PORT || 3000;
