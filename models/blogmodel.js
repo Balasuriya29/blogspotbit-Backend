@@ -11,11 +11,9 @@ const blogSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'authuser'
     },
-    author_name: String,
     content: String,
     likes: {type: Number, default: parseInt(0)},
     date: {type: Date, default: Date.now},
-    url: String,
 }, { _id: false });
 blogSchema.plugin(AutoIncrement);
 
