@@ -70,7 +70,7 @@ router.put("/dislike/:id", async (req, res) => {
 router.get("/showmyblogs/:id", async (req,res) => {
     const blogs = await Blog.Blog.find({
         author_id: req.params.id
-    })
+    }).populate('author_id', ['name'])
     res.send(blogs)
 });
 
@@ -86,7 +86,7 @@ router.get("/showsavedblogs", auth, async (req,res) => {
     user.saved.forEach(async element => {
         const blog = await Blog.Blog.findOne({
             _id : parseInt(element)
-        })
+        }).populate('author_id', ['name'])
         
         if(blog){
             blogs.push(blog);
