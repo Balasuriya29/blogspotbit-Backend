@@ -20,10 +20,14 @@ router.post("/add", auth ,async (req,res) => {
 
 //DB GET ALL - API CALL 2
 router.get("/show", async (req, res) => {
-    const blogs = await Blog.Blog.find();
-
+    const blogs = await Blog
+        .Blog
+        .find()
+        .populate('author_id',['name'])
+        ;
     res.send(blogs);
 });
+
 
 //DB DELETE BY ID - API CALL 3
 router.get("/delete/:id", auth, async (req, res) => {
