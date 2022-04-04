@@ -71,6 +71,9 @@ router.get("/showmyblogs/:id", async (req,res) => {
     const blogs = await Blog.Blog.find({
         author_id: req.params.id
     }).populate('author_id', ['name'])
+
+    if(!blogs) return res.status(404).send("Please Add a Blog");
+
     res.send(blogs)
 });
 

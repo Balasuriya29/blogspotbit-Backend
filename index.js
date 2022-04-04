@@ -47,5 +47,10 @@ app.use('/api/users', auth);
 const db_string = 'mongodb+srv://arunkarthickm:Arun%40007@cluster0.dfr13.mongodb.net/sample?retryWrites=true&w=majority';
 connection.connectDB(db_string);
 
+//Default Route
+app.get("/", (req,res) => {
+    res.send("It is Working Perfectly");
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,() => console.log(`Listening at ${PORT}`))
