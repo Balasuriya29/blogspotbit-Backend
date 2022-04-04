@@ -86,25 +86,27 @@ router.get("/showsavedblogs", auth, async (req,res) => {
    
     var blogs = []
 
-    user.saved.forEach(async element => {
-        const blog = await Blog.Blog.findOne({
-            _id : parseInt(element)
-        }).populate('author_id', ['name'])
-        
-        if(blog){
-            blogs.push(blog);
-            console.log(blogs);
-            const len = user.saved.length;
-            if(len == blogs.length){
-                return res.send(blogs);
+    if(user.saved.length == 0){
+        res.status(404).send("No Saved Blogs")
+    }
+    else{
+        user.saved.forEach(async element => {
+            const blog = await Blog.Blog.findOne({
+                _id : parseInt(element)
+            }).populate('author_id', ['name'])
+            
+            if(blog){
+                blogs.push(blog);
+                console.log(blogs);
+                const len = user.saved.length;
+                if(len == blogs.length){
+                    return res.send(blogs);
 
+                }
             }
-        }
-        else{
-            res.status(404).send("No Saved Blogs")
-        }
-    });
-    
+            
+        });
+    }
 });
 
 module.exports = router;
