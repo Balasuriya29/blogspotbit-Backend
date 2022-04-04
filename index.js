@@ -8,7 +8,7 @@ const express = require('express');
 const connection = require('./connection');
 const config = require('config');
 
-//
+
 const blogs = require('./routes/blogs');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
