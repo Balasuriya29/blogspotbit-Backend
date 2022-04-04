@@ -23,8 +23,7 @@ router.get("/show", async (req, res) => {
     const blogs = await Blog
         .Blog
         .find()
-        .populate('author_id',['name'])
-        ;
+        .populate('author_id',['name']);
     res.send(blogs);
 });
 
@@ -77,24 +76,29 @@ router.get("/showmyblogs/:id", async (req,res) => {
 
 //DB SAVED BLOGS SHOW - API CALL 7
 router.get("/showsavedblogs", auth, async (req,res) => {
+    
     const user = await AuthUser.AuthUser.findById({
         _id : req.user._id
     })
-    
-    const blogs = []
+   
+    var blogs = []
 
     user.saved.forEach(async element => {
         const blog = await Blog.Blog.findOne({
-            _id : element
+            _id : parseInt(element)
         })
+        
         if(blog){
-            blogs.push(blog)
-            const len = user.saved.length - 1;
+            blogs.push(blog);
+            console.log(blogs);
+            const len = user.saved.length;
             if(len == blogs.length){
                 res.send(blogs);
+
             }
         }
     });
+    
 });
 
 module.exports = router;
