@@ -43,7 +43,7 @@ app.use(mongoose_morgan({
   connectionString: sample,
  },{
   skip: function (req, res) {
-    return res.statusCode != 200;
+    return res.statusCode > 200;
     }
  },
  'dev'
