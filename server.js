@@ -41,8 +41,12 @@ app.use(helmet())
 app.use(mongoose_morgan({
   collection: 'logs',
   connectionString: sample,
- },{},
- 'common'
+ },{
+  skip: function (req, res) {
+    return res.statusCode != 200;
+    }
+ },
+ 'dev'
 ));
 
 app.use('/api/send', send_otp_to_email);
