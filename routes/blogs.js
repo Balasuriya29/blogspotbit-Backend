@@ -1,5 +1,5 @@
 const express = require('express');
-const { result } = require('lodash');
+const { result, isNaN, isNumber } = require('lodash');
 const auth = require('../middleware/auth');
 const router = express.Router();
 const Blog = require('../models/blogmodel');
@@ -24,57 +24,66 @@ router.get("/show", async (req, res) => {
         .Blog
         .find()
         .populate('author_id',['name']);
+    
+    if(blogs.length == 0){
+        return res.status(404).send(error.details[0].message);
+    }
+
     res.send(blogs);
+
 });
 
 
 //DB DELETE BY ID - API CALL 3
 router.get("/delete/:id", auth, async (req, res) => {
-    const blog = await Blog.Blog.deleteOne({
-        _id : parseInt(req.params.id)
-    });
-    res.send(blog);
+        const blog = await Blog.Blog.deleteOne({
+            _id : parseInt(req.params.id)
+        });
+        if(blog){
+            res.send(blog);
+        }
+        
 });
 
 //DB UPDATE LIKE BY ID - API CALL 4
 router.put("/like/:id", async (req, res) => {
-    const blog = await Blog.Blog.updateOne(
-        {
-            _id:req.params.id
-        }
-        ,
-        {
-            $inc: {
-                likes: 1
+        await Blog.Blog.updateOne(
+            {
+                _id:req.params.id
             }
-        });
-    res.send('success')
+            ,
+            {
+                $inc: {
+                    likes: 1
+                }
+            });
+        res.send('success')
 });
 
 //DB UPDATE DISLIKE BY ID - API CALL 5
 router.put("/dislike/:id", async (req, res) => {
-    await Blog.Blog.updateOne(
-        {
-            _id:req.params.id
-        }
-        ,
-        {
-            $inc: {
-                likes: -1
+        await Blog.Blog.updateOne(
+            {
+                _id:req.params.id
             }
-        });
-    res.send('success')
+            ,
+            {
+                $inc: {
+                    likes: -1
+                }
+            });
+        res.send('success')
 });
 
 //DB MY BLOGS SHOW - API CALL 6
 router.get("/showmyblogs/:id", async (req,res) => {
-    const blogs = await Blog.Blog.find({
-        author_id: req.params.id
-    }).populate('author_id', ['name'])
+        const blogs = await Blog.Blog.find({
+            author_id: req.params.id
+        }).populate('author_id', ['name'])
 
-    if(!blogs) return res.status(404).send("Please Add a Blog");
+        if(!blogs) return res.status(404).send("Please Add a Blog"); // Not Found
 
-    res.send(blogs)
+        res.send(blogs)
 });
 
 //DB SAVED BLOGS SHOW - API CALL 7
@@ -83,6 +92,8 @@ router.get("/showsavedblogs", auth, async (req,res) => {
     const user = await AuthUser.AuthUser.findById({
         _id : req.user._id
     })
+
+    if(!user) return res.status(404).send("No User Found");
    
     var blogs = []
 

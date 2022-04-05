@@ -4,12 +4,12 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const AuthUser = require('../models/usermodel');
 const ValidateAuthUser = require('../models/usermodel');
-const Blog = require('../models/blogmodel');
 const auth = require('../middleware/auth');
-const adminauth = require('../middleware/adminauth');
 
 //DB POST AuthUSER - API CALL 1
-router.post("/add/:id", async (req, res) => {    
+router.post("/add/:id", async (req, res) => { 
+    if (!req.params.id) return res.status(403).send("You Cannot access it from here");
+
     const { error } = ValidateAuthUser.ValidateAuthUser(req.body);
     if (error) return res.status(404).send(error.details[0].message);
 
@@ -41,32 +41,33 @@ router.get('/me', auth, async (req, res) => {
 
 //DB PUT LIKED BLOGS - API CALL 3
 router.put('/liked/:id', auth,  async (req, res) => {
-    const user = await AuthUser.AuthUser.updateOne(
-        {
-            _id: req.user._id
-        },
-        {
-            $push: {
-                liked_blogs : req.params.id
-            }
-        });
+        const user = await AuthUser.AuthUser.updateOne(
+            {
+                _id: req.user._id
+            },
+            {
+                $push: {
+                    liked_blogs : req.params.id
+                }
+            });
+            if(!user) return res.status(404).send("No User Found");
 
-   res.send(user);
+        res.send(user);
 });
 
 //DB PUT LIKED BLOGS - API CALL 4
 router.put('/rmliked/:id', auth,  async (req, res) => {
-    const user = await AuthUser.AuthUser.updateOne(
-        {
-            _id: req.user._id
-        },
-        {
-            $pull: {
-                liked_blogs : req.params.id
-            }
-        });
-
-   res.send(user);
+        const user = await AuthUser.AuthUser.updateOne(
+            {
+                _id: req.user._id
+            },
+            {
+                $pull: {
+                    liked_blogs : req.params.id
+                }
+            });
+        if(!user) return res.status(404).send("No User Found");
+        res.send(user);
 });
 
 //DB DELETE USER BLOGS - API CAll 5
@@ -82,36 +83,38 @@ router.get('/delete', auth , async (req, res) => {
 
 //DB UPDATE SAVED BLOGS ID - API CALL 6
 router.put("/saved/:id", auth, async (req, res) => {
-    const user = await AuthUser.AuthUser.updateOne(
-        {
-            _id : req.user._id
-        },
 
-        {
-            $push: {
-                saved : req.params.id
+        const user = await AuthUser.AuthUser.updateOne(
+            {
+                _id : req.user._id
+            },
+
+            {
+                $push: {
+                    saved : req.params.id
+                }
             }
-        }
-    )
-    if(!user) return res.status(404).send("Nothing found");
-    res.send(user);
+        )
+        if(!user) return res.status(404).send("Nothing found");
+        res.send(user);
 });
 
 //DB UPDATE SAVED BLOGS ID - API CALL 7
 router.put("/rmsaved/:id", auth, async (req, res) => {
-    const user = await AuthUser.AuthUser.updateOne(
-        {
-            _id : req.user._id
-        },
+        const user = await AuthUser.AuthUser.updateOne(
+            {
+                _id : req.user._id
+            },
 
-        {
-            $pull: {
-                saved : req.params.id
+            {
+                $pull: {
+                    saved : req.params.id
+                }
             }
-        }
-    )
-    if(!user) return res.status(404).send("Nothing found");
-    res.send(user);
+        )
+        if(!user) return res.status(404).send("Nothing found");
+        res.send(user);
+
 });
 
 module.exports = router;
