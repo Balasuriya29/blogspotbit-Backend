@@ -46,7 +46,8 @@ function validateAuthUser(authuser) {
         name: Joi.string().min(5).max(50).required(),
         email: Joi.string().min(5).max(255).required().email(),
         password: Joi.string().min(5).max(255).required(),
-        isAdmin: Joi.boolean()
+        isAdmin: Joi.boolean(),
+        url: Joi.required(),
     });
 
     return tempschema.validate(authuser);
