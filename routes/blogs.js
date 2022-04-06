@@ -26,7 +26,7 @@ router.get("/show", async (req, res) => {
         .populate('author_id',['name url']);
     
     if(blogs.length == 0){
-        return res.status(404).send(error.details[0].message);
+        return res.status(404).send("No blogs Found");
     }
 
     res.status(200).send(blogs);
