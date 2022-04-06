@@ -104,7 +104,7 @@ router.get("/showsavedblogs", auth, async (req,res) => {
         user.saved.forEach(async element => {
             const blog = await Blog.Blog.findOne({
                 _id : parseInt(element)
-            }).populate('author_id', ['name'])
+            }).populate('author_id', ['name', 'url'])
             
             if(blog){
                 blogs.push(blog);
