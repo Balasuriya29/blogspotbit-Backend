@@ -41,11 +41,7 @@ app.use(helmet())
 app.use(mongoose_morgan({
   collection: 'logs',
   connectionString: sample,
- },{
-  skip: function (req, res) {
-    return res.statusCode > 200;
-    }
- },
+ },{},
  'common'
 ));
 
