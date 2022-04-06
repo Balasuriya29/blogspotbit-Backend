@@ -30,13 +30,13 @@ router.post("/add/:id", async (req, res) => {
     const token = authuser.generateAuthToken();
 
     await authuser.save();
-    res.header('x-auth-token', token).send(_.pick(authuser, ['_id', 'name', 'email', 'isAdmin']));
+    res.status(200).header('x-auth-token', token).send(_.pick(authuser, ['_id', 'name', 'email', 'isAdmin']));
 });
 
 //DB GET CURRENT USER - API CALL 2
 router.get('/me', auth, async (req, res) => {
     const user = await AuthUser.AuthUser.findById(req.user._id).select('-password');
-    res.send(user);
+    res.status(200).send(user);
 });
 
 //DB PUT LIKED BLOGS - API CALL 3
@@ -52,7 +52,7 @@ router.put('/liked/:id', auth,  async (req, res) => {
             });
             if(!user) return res.status(404).send("No User Found");
 
-        res.send(user);
+        res.status(200).send(user);
 });
 
 //DB PUT LIKED BLOGS - API CALL 4
@@ -67,7 +67,7 @@ router.put('/rmliked/:id', auth,  async (req, res) => {
                 }
             });
         if(!user) return res.status(404).send("No User Found");
-        res.send(user);
+        res.status(200).send(user);
 });
 
 //DB DELETE USER BLOGS - API CAll 5
@@ -78,7 +78,7 @@ router.get('/delete', auth , async (req, res) => {
 
     if(!user) return res.status(404).send("Nothing found");
 
-    res.send(user);
+    res.status(200).send(user);
 });
 
 //DB UPDATE SAVED BLOGS ID - API CALL 6
@@ -96,7 +96,7 @@ router.put("/saved/:id", auth, async (req, res) => {
             }
         )
         if(!user) return res.status(404).send("Nothing found");
-        res.send(user);
+        res.status(200).send(user);
 });
 
 //DB UPDATE SAVED BLOGS ID - API CALL 7
@@ -113,7 +113,7 @@ router.put("/rmsaved/:id", auth, async (req, res) => {
             }
         )
         if(!user) return res.status(404).send("Nothing found");
-        res.send(user);
+        res.status(200).send(user);
 
 });
 

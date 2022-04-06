@@ -15,7 +15,7 @@ router.post("/add", auth ,async (req,res) => {
         req.body        
     );
     const result = await blog.save();
-    res.send(result);
+    res.status(200).send(result);
 });
 
 //DB GET ALL - API CALL 2
@@ -29,7 +29,7 @@ router.get("/show", async (req, res) => {
         return res.status(404).send(error.details[0].message);
     }
 
-    res.send(blogs);
+    res.status(200).send(blogs);
 
 });
 
@@ -40,7 +40,7 @@ router.get("/delete/:id", auth, async (req, res) => {
             _id : parseInt(req.params.id)
         });
         if(blog){
-            res.send(blog);
+            res.status(200).send(blog);
         }
         
 });
@@ -57,7 +57,7 @@ router.put("/like/:id", async (req, res) => {
                     likes: 1
                 }
             });
-        res.send('success')
+        res.status(200).send('success')
 });
 
 //DB UPDATE DISLIKE BY ID - API CALL 5
@@ -72,7 +72,7 @@ router.put("/dislike/:id", async (req, res) => {
                     likes: -1
                 }
             });
-        res.send('success')
+        res.status(200).send('success')
 });
 
 //DB MY BLOGS SHOW - API CALL 6
@@ -83,7 +83,7 @@ router.get("/showmyblogs/:id", async (req,res) => {
 
         if(!blogs) return res.status(404).send("Please Add a Blog"); // Not Found
 
-        res.send(blogs)
+        res.status(200).send(blogs)
 });
 
 //DB SAVED BLOGS SHOW - API CALL 7
@@ -111,7 +111,7 @@ router.get("/showsavedblogs", auth, async (req,res) => {
                 console.log(blogs);
                 const len = user.saved.length;
                 if(len == blogs.length){
-                    return res.send(blogs);
+                    return res.status(200).send(blogs);
 
                 }
             }

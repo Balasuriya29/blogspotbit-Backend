@@ -46,7 +46,7 @@ app.use(mongoose_morgan({
     return res.statusCode > 200;
     }
  },
- 'dev'
+ 'common'
 ));
 
 app.use('/api/send', send_otp_to_email);
@@ -57,7 +57,7 @@ app.use('/api/users', auth);
 
 //Default Route
 app.get("/", (req,res) => {
-    res.send("Everything is Working Perfectly!!!");
+    res.status(200).send("Everything is Working Perfectly!!!");
 });
 
 const PORT = process.env.PORT || 3000;
