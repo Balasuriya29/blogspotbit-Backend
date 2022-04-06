@@ -79,7 +79,7 @@ router.put("/dislike/:id", async (req, res) => {
 router.get("/showmyblogs/:id", async (req,res) => {
         const blogs = await Blog.Blog.find({
             author_id: req.params.id
-        }).populate('author_id', ['name'])
+        }).populate('author_id', ['name', 'url'])
 
         if(!blogs) return res.status(404).send("Please Add a Blog"); // Not Found
 
