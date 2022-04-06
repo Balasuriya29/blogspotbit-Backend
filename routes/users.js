@@ -24,7 +24,7 @@ router.post("/add/:id", async (req, res) => {
         email: req.body.email,
         password: hashed,
         isAdmin: req.body.isAdmin,
-        url: req.body.url,
+        url: req.body.url
     });
     
     const token = authuser.generateAuthToken();
