@@ -115,9 +115,28 @@ router.get("/showsavedblogs", auth, async (req,res) => {
 
                 }
             }
+            else{
+                res.status(404).send("This Blog not found");
+            }
             
         });
     }
 });
+
+//DB UPDATE LIKE BY ID - API CALL 8
+router.put("/report/:id", async (req, res) => {
+    await Blog.Blog.updateOne(
+        {
+            _id:req.params.id
+        }
+        ,
+        {
+            $inc: {
+                reports: 1
+            }
+        });
+    res.status(200).send('success')
+});
+
 
 module.exports = router;

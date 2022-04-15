@@ -13,6 +13,7 @@ const blogSchema = new mongoose.Schema({
     },
     content: String,
     likes: {type: Number, default: parseInt(0)},
+    reports: {type: Number, default: parseInt(0)},
     date: {type: Date, default: Date.now},
 }, { _id: false });
 blogSchema.plugin(AutoIncrement);
