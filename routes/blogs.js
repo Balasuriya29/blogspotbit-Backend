@@ -108,15 +108,13 @@ router.get("/showsavedblogs", auth, async (req,res) => {
             
             if(blog){
                 blogs.push(blog);
-                console.log(blogs);
                 const len = user.saved.length;
                 if(len == blogs.length){
                     return res.status(200).send(blogs);
-
                 }
             }
             else{
-                res.status(404).send("This Blog not found");
+                blogs.push("This Blog Not Found");
             }
             
         });

@@ -4,6 +4,7 @@ const {encode} = require("../middleware/crypt")
 var otpGenerator = require('otp-generator');
 const nodemailer = require('nodemailer');
 const config = require('config');
+const AuthUser = require("../models/usermodel");
 
 // To add minutes to the current time
 function AddMinutesToDate(date, minutes) {
@@ -22,6 +23,8 @@ router.post('/email/otp', async (req, res, next) => {
       const response={"Status":"Failure","Details":"Type not provided"}
       return res.status(400).send(response) 
     }
+    let authuser = await AuthUser.AuthUser.findOne({email: email});
+    if (authuser) return res.status(404).send("User Already registered");
 
     //Generate OTP 
     const otp = otpGenerator.generate(6, { 
