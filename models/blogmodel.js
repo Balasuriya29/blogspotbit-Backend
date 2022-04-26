@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Joi = require("joi");
+const { AuthUserSchema } = require('./usermodel');
 
 //Defining a blogSchema
 const blogSchema = new mongoose.Schema({
@@ -11,10 +12,11 @@ const blogSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'authuser'
     },
+    author_name: String,
     content: String,
     likes: {type: Number, default: parseInt(0)},
-    reports: {type: Number, default: parseInt(0)},
     date: {type: Date, default: Date.now},
+    url: String,
 }, { _id: false });
 blogSchema.plugin(AutoIncrement);
 

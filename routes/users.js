@@ -7,7 +7,7 @@ const ValidateAuthUser = require('../models/usermodel');
 const auth = require('../middleware/auth');
 
 //DB POST AuthUSER - API CALL 1
-router.post("/add/:id", async (req, res) => { 
+router.post("/add", async (req, res) => { 
     if (!req.params.id) return res.status(403).send("You Cannot access it from here");
 
     const { error } = ValidateAuthUser.ValidateAuthUser(req.body);
