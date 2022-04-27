@@ -7,6 +7,7 @@ const config = require('config');
 const ValidateAuthUser = require('../models/usermodel');
 const AuthUser = require("../models/usermodel");
 const { default: mongoose } = require('mongoose');
+const Joi = require('joi');
 
 // To add minutes to the current time
 function AddMinutesToDate(date, minutes) {
