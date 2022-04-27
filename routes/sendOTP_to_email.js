@@ -6,14 +6,28 @@ const nodemailer = require('nodemailer');
 const config = require('config');
 const ValidateAuthUser = require('../models/usermodel');
 const AuthUser = require("../models/usermodel");
+const { default: mongoose } = require('mongoose');
 
 // To add minutes to the current time
 function AddMinutesToDate(date, minutes) {
   return new Date(date.getTime() + minutes*60000);
 }
 
+//Email Validater
+function validateemail(email) {
+  const tempschema = Joi.object({
+      email: Joi.string().min(5).max(255).required().email(),
+  });
+
+  return tempschema.validate(email);
+}
+
 router.post('/email/otp', async (req, res, next) => {
   try{
+
+    const { error } = validateemail(req.body);
+    if (error) return res.status(404).send(error.details[0].message);
+
     const {email,type} = req.body;
     let email_subject, email_message
     if(!email){
@@ -24,9 +38,6 @@ router.post('/email/otp', async (req, res, next) => {
       const response={"Status":"Failure","Details":"Type not provided"}
       return res.status(400).send(response) 
     }
-
-    const { error } = ValidateAuthUser.ValidateAuthUser(req.body);
-    if (error) return res.status(404).send(error.details[0].message);
 
     let authuser = await AuthUser.AuthUser.findOne({email: email});
     if (authuser) return res.status(404).send("User Already registered");
