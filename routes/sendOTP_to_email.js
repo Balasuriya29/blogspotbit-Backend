@@ -18,6 +18,7 @@ function AddMinutesToDate(date, minutes) {
 function validateemail(email) {
   const tempschema = Joi.object({
       email: Joi.string().min(5).max(255).required().email(),
+      type: Joi.string()
   });
 
   return tempschema.validate(email);
