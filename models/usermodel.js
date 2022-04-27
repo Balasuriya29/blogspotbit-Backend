@@ -27,7 +27,7 @@ const AuthUserSchema = new mongoose.Schema({
     saved: [ Number ],
     isAdmin: {type: Boolean, default: false},
     liked_blogs: [ Number ],
-    url: String
+
 });
 
 //Method for Token Generation
@@ -46,7 +46,7 @@ function validateAuthUser(authuser) {
         email: Joi.string().min(5).max(255).required().email(),
         password: Joi.string().min(5).max(255).required(),
         isAdmin: Joi.boolean(),
-        url: Joi.required,
+
     });
 
     return tempschema.validate(authuser);
