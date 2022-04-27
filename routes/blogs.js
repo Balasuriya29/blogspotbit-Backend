@@ -18,7 +18,7 @@ router.post("/add", auth ,async (req,res) => {
     const result = await blog.save();
     res.status(200).send(result);
 });
-var blog = true;
+
 //DB GET ALL - API CALL 2
 router.get("/show", async (req, res) => {
     const blogs = await Blog
