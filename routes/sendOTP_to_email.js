@@ -24,7 +24,6 @@ function validateemail(email) {
 
 router.post('/email/otp', async (req, res, next) => {
   try{
-
     const { error } = validateemail(req.body);
     if (error) return res.status(404).send(error.details[0].message);
 
