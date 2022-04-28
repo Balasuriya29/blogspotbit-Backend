@@ -12,9 +12,11 @@ router.post("/add", auth ,async (req,res) => {
     const { error } = ValidateBlog.ValidateBlog(req.body);
     if (error) return res.status(404).send(error.details[0].message);
 
-    const blog = new Blog.Blog(
-        req.body        
-    );
+    const blog = new Blog.Blog({
+        title: req.body.title,
+        author_id: req.body.author_id,
+        content: req.body.content,   
+    });
     const result = await blog.save();
     res.status(200).send(result);
 });
@@ -24,7 +26,7 @@ router.get("/show", async (req, res) => {
     const blogs = await Blog
         .Blog
         .find()
-        .populate('author_id',['name', 'url']);
+        .populate('author_id',['name']);
     
     if(blogs.length == 0){
         return res.status(404).send("No blogs Found");
