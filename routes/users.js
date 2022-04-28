@@ -38,7 +38,6 @@ router.get('/me', auth, async (req, res) => {
     const user = await AuthUser.AuthUser.findById(req.user._id).select('-password');
     res.status(200).send(user);
 });
-
 //DB PUT LIKED BLOGS - API CALL 3
 router.put('/liked/:id', auth,  async (req, res) => {
         const user = await AuthUser.AuthUser.updateOne(
