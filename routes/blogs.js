@@ -36,7 +36,6 @@ router.get("/show", async (req, res) => {
 
 });
 
-
 //DB DELETE BY ID - API CALL 3
 router.get("/delete/:id", auth, async (req, res) => {
         const blog = await Blog.Blog.deleteOne({
