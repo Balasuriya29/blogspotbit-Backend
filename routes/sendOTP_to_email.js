@@ -8,10 +8,11 @@ const ValidateAuthUser = require('../models/usermodel');
 const AuthUser = require("../models/usermodel");
 const { default: mongoose } = require('mongoose');
 const Joi = require('joi');
+const { now } = require('lodash');
 
 // To add minutes to the current time
-function AddMinutesToDate(date, minutes) {
-  return new Date(date.getTime() + minutes*30000);
+function AddMinutesToDate(date) {
+  return date.setMinutes(date.getMinutes()+2);
 }
 
 //Email Validater
@@ -34,7 +35,7 @@ router.post('/email/otp', async (req, res, next) => {
     if(!email){
       const response={"Status":"Failure","Details":"Email not provided"}
       return res.status(400).send(response) 
-    }
+    }99
     if(!type){
       const response={"Status":"Failure","Details":"Type not provided"}
       return res.status(400).send(response) 
@@ -51,7 +52,7 @@ router.post('/email/otp', async (req, res, next) => {
         specialChars: false 
       });
     const now = new Date();
-    const expiration_time = AddMinutesToDate(now,10);
+    const expiration_time = AddMinutesToDate(now);
     
   
   //Create OTP instance in DB

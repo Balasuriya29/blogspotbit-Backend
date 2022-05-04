@@ -26,7 +26,7 @@ router.get("/show", async (req, res) => {
     const blogs = await Blog
         .Blog
         .find()
-        .populate('author_id',['name']);
+        .populate('author_id',['name', 'profile_color']);
     
     if(blogs.length == 0){
         return res.status(404).send("No blogs Found");
@@ -81,7 +81,7 @@ router.put("/dislike/:id", async (req, res) => {
 router.get("/showmyblogs/:id", async (req,res) => {
         const blogs = await Blog.Blog.find({
             author_id: req.params.id
-        }).populate('author_id', ['name'])
+        }).populate('author_id', ['name','profile_color'])
 
         if(!blogs) return res.status(404).send("Please Add a Blog"); // Not Found
 
@@ -106,7 +106,7 @@ router.get("/showsavedblogs", auth, async (req,res) => {
         user.saved.forEach(async element => {
             const blog = await Blog.Blog.findOne({
                 _id : parseInt(element)
-            }).populate('author_id', ['name', 'url'])
+            }).populate('author_id', ['name', 'profile_color'])
             
             if(blog){
                 blogs.push(blog);
