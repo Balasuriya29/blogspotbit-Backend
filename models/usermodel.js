@@ -27,6 +27,7 @@ const AuthUserSchema = new mongoose.Schema({
     saved: [ Number ],
     isAdmin: {type: Boolean, default: false},
     liked_blogs: [ Number ],
+    profile_color: String,
 
 });
 
@@ -46,7 +47,7 @@ function validateAuthUser(authuser) {
         email: Joi.string().min(5).max(255).required().email(),
         password: Joi.string().min(5).max(255).required(),
         isAdmin: Joi.boolean(),
-
+        profile_color:Joi.string().required(),
     });
 
     return tempschema.validate(authuser);

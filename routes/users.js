@@ -24,11 +24,10 @@ router.post("/add/:id", async (req, res) => {
         email: req.body.email,
         password: hashed,
         isAdmin: req.body.isAdmin,
-
+        profile_color: req.body.profile_color
     });
     
     const token = authuser.generateAuthToken();
-
     await authuser.save();
     res.status(200).header('x-auth-token', token).send(_.pick(authuser, ['_id', 'name', 'email', 'isAdmin']));
 });
