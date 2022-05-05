@@ -125,7 +125,7 @@ router.get("/showsavedblogs", auth, async (req,res) => {
 
 //DB UPDATE LIKE BY ID - API CALL 8
 router.put("/report/:id", auth, async (req, res) => {
-    await Blog.Blog.updateOne(
+    const blog = await Blog.Blog.updateOne(
         {
             _id:req.params.id
         }
@@ -135,6 +135,13 @@ router.put("/report/:id", auth, async (req, res) => {
                 reports: 1
             }
         });
+
+        if(blog.report >= 5){
+            await Blog.Blog.deleteOne({
+                _id: parseInt(req.params.id)
+            });
+        }
+        
     res.status(200).send('success')
 });
 
