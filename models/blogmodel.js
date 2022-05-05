@@ -28,7 +28,7 @@ function validateBlog(blog) {
     const tempschema = Joi.object({
         title: Joi.string().min(5).max(100).required(),
         author_id: Joi.string().min(5).max(50).required(),
-        content: Joi.string().min(5).max(1024).required(), 
+        content: Joi.string().min(5).max(1500).required(), 
     });
 
     return tempschema.validate(blog);
