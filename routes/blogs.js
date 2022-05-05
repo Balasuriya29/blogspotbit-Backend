@@ -132,7 +132,7 @@ router.put("/report/:id", auth, async (req, res) => {
         ,
         {
             $inc: {
-                reports: 1
+                report: 1
             }
         });
 
