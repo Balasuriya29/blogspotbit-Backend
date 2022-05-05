@@ -22,18 +22,18 @@ router.post("/add", auth ,async (req,res) => {
 });
 
 //DB GET ALL - API CALL 2
-router.get("/show", async (req, res) => {
-    const blogs = await Blog
-        .Blog
-        .find()
-        .populate('author_id',['name', 'profile_color']);
-    
-    if(blogs.length == 0){
-        return res.status(404).send("No blogs Found");
-    }
+router.get("/show", auth, async (req,res) =>  {
+    const user_reports = await AuthUser.AuthUser.findById(req.user._id).select({reported:1});
 
-    res.status(200).send(blogs);
+    const blogs = await Blog.Blog.find(
+        {
+            _id : {
+                $nin : user_reports.reported
+            }
+        }
+    ).populate('author_id',['name', 'profile_color']);
 
+    res.send(blogs).status(200);
 });
 
 //DB DELETE BY ID - API CALL 3
@@ -97,7 +97,19 @@ router.get("/showsavedblogs", auth, async (req,res) => {
     }
 });
 
-
+router.get("/adminshow", async (req, res) => {
+    const blogs = await Blog
+        .Blog
+        .find()
+        .populate('author_id',['name', 'profile_color']);
+    
+    if(blogs.length == 0){
+        return res.status(404).send("No blogs Found");
+    }
+  
+    res.status(200).send(blogs);
+  
+  });
 
 
 module.exports = router;
