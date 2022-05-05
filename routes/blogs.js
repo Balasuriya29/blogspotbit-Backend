@@ -124,7 +124,7 @@ router.get("/showsavedblogs", auth, async (req,res) => {
 });
 
 //DB UPDATE LIKE BY ID - API CALL 8
-router.put("/report/:id", async (req, res) => {
+router.put("/report/:id", auth, async (req, res) => {
     await Blog.Blog.updateOne(
         {
             _id:req.params.id
