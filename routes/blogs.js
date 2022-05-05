@@ -47,35 +47,35 @@ router.get("/delete/:id", auth, async (req, res) => {
         
 });
 
-//DB UPDATE LIKE BY ID - API CALL 4
-router.put("/like/:id", async (req, res) => {
-        await Blog.Blog.updateOne(
-            {
-                _id:req.params.id
-            }
-            ,
-            {
-                $inc: {
-                    likes: 1
-                }
-            });
-        res.status(200).send('success')
-});
+// //DB UPDATE LIKE BY ID - API CALL 4
+// router.put("/like/:id", async (req, res) => {
+//         await Blog.Blog.updateOne(
+//             {
+//                 _id:req.params.id
+//             }
+//             ,
+//             {
+//                 $inc: {
+//                     likes: 1
+//                 }
+//             });
+//         res.status(200).send('success')
+// });
 
-//DB UPDATE DISLIKE BY ID - API CALL 5
-router.put("/dislike/:id", async (req, res) => {
-        await Blog.Blog.updateOne(
-            {
-                _id:req.params.id
-            }
-            ,
-            {
-                $inc: {
-                    likes: -1
-                }
-            });
-        res.status(200).send('success')
-});
+// //DB UPDATE DISLIKE BY ID - API CALL 5
+// router.put("/dislike/:id", async (req, res) => {
+//         await Blog.Blog.updateOne(
+//             {
+//                 _id:req.params.id
+//             }
+//             ,
+//             {
+//                 $inc: {
+//                     likes: -1
+//                 }
+//             });
+//         res.status(200).send('success')
+// });
 
 //DB MY BLOGS SHOW - API CALL 6
 router.get("/showmyblogs/:id", async (req,res) => {
@@ -116,34 +116,18 @@ router.get("/showsavedblogs", auth, async (req,res) => {
                 }
             }
             else{
-                blogs.push("This Blog Not Found");
+                blogs.push("NULL");
+                const len = user.saved.length;
+                if(len == blogs.length){
+                    return res.status(200).send(blogs);
+                }
             }
             
         });
     }
 });
 
-//DB UPDATE LIKE BY ID - API CALL 8
-router.put("/report/:id", auth, async (req, res) => {
-    const blog = await Blog.Blog.updateOne(
-        {
-            _id:req.params.id
-        }
-        ,
-        {
-            $inc: {
-                report: 1
-            }
-        });
 
-        if(blog.report >= 5){
-            await Blog.Blog.deleteOne({
-                _id: parseInt(req.params.id)
-            });
-        }
-        
-    res.status(200).send('success')
-});
 
 
 module.exports = router;

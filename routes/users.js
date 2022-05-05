@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const AuthUser = require('../models/usermodel');
 const ValidateAuthUser = require('../models/usermodel');
+const Blog = require('../models/blogmodel')
 const auth = require('../middleware/auth');
 
 //DB POST AuthUSER - API CALL 1
@@ -39,6 +40,17 @@ router.get('/me', auth, async (req, res) => {
 });
 //DB PUT LIKED BLOGS - API CALL 3
 router.put('/liked/:id', auth,  async (req, res) => {
+        await Blog.Blog.updateOne(
+            {
+                _id:req.params.id
+            }
+            ,
+            {
+                $inc: {
+                    likes: 1
+                }
+            });
+        
         const user = await AuthUser.AuthUser.updateOne(
             {
                 _id: req.user._id
@@ -50,11 +62,22 @@ router.put('/liked/:id', auth,  async (req, res) => {
             });
             if(!user) return res.status(404).send("No User Found");
 
-        res.status(200).send(user);
+        res.status(200).send('success');
 });
 
 //DB PUT LIKED BLOGS - API CALL 4
 router.put('/rmliked/:id', auth,  async (req, res) => {
+    await Blog.Blog.updateOne(
+        {
+            _id:req.params.id
+        }
+        ,
+        {
+            $inc: {
+                likes: -1
+            }
+        });
+    
         const user = await AuthUser.AuthUser.updateOne(
             {
                 _id: req.user._id
@@ -65,7 +88,7 @@ router.put('/rmliked/:id', auth,  async (req, res) => {
                 }
             });
         if(!user) return res.status(404).send("No User Found");
-        res.status(200).send(user);
+        res.status(200).send('success');
 });
 
 //DB DELETE USER BLOGS - API CAll 5
@@ -113,6 +136,39 @@ router.put("/rmsaved/:id", auth, async (req, res) => {
         if(!user) return res.status(404).send("Nothing found");
         res.status(200).send(user);
 
+});
+
+//DB UPDATE REPORT BY ID - API CALL 8
+router.put("/report/:id", auth, async (req, res) => {
+    await Blog.Blog.updateOne(
+        {
+            _id:req.params.id
+        }
+        ,
+        {
+            $inc: {
+                report: 1
+            }
+        });
+    
+        const blog = await Blog.Blog.findById(req.params.id);
+        if(blog.report >= 5){
+            await Blog.Blog.deleteOne({
+                _id: parseInt(req.params.id)
+            });
+        }
+
+        await AuthUser.AuthUser.updateOne(
+            {
+                _id: req.user._id
+            },
+            {
+                $push: {
+                    reported : req.params.id
+                }
+            });
+        
+    res.status(200).send('success')
 });
 
 module.exports = router;

@@ -27,6 +27,7 @@ const AuthUserSchema = new mongoose.Schema({
     saved: [ Number ],
     isAdmin: {type: Boolean, default: false},
     liked_blogs: [ Number ],
+    reported: [Number],
     profile_color: String,
 
 });
