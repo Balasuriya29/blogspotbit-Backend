@@ -47,37 +47,7 @@ router.get("/delete/:id", auth, async (req, res) => {
         
 });
 
-// //DB UPDATE LIKE BY ID - API CALL 4
-// router.put("/like/:id", async (req, res) => {
-//         await Blog.Blog.updateOne(
-//             {
-//                 _id:req.params.id
-//             }
-//             ,
-//             {
-//                 $inc: {
-//                     likes: 1
-//                 }
-//             });
-//         res.status(200).send('success')
-// });
-
-// //DB UPDATE DISLIKE BY ID - API CALL 5
-// router.put("/dislike/:id", async (req, res) => {
-//         await Blog.Blog.updateOne(
-//             {
-//                 _id:req.params.id
-//             }
-//             ,
-//             {
-//                 $inc: {
-//                     likes: -1
-//                 }
-//             });
-//         res.status(200).send('success')
-// });
-
-//DB MY BLOGS SHOW - API CALL 6
+//DB MY BLOGS SHOW - API CALL 4
 router.get("/showmyblogs/:id", async (req,res) => {
         const blogs = await Blog.Blog.find({
             author_id: req.params.id
@@ -88,7 +58,7 @@ router.get("/showmyblogs/:id", async (req,res) => {
         res.status(200).send(blogs)
 });
 
-//DB SAVED BLOGS SHOW - API CALL 7
+//DB SAVED BLOGS SHOW - API CALL 5
 router.get("/showsavedblogs", auth, async (req,res) => {
     
     const user = await AuthUser.AuthUser.findById({
