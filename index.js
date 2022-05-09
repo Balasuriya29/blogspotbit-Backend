@@ -44,6 +44,8 @@ app.use(mongoose_morgan({
  },{},
  'common'
 ));
+app.set('view engine', 'pug');
+app.set('views', './views');
 
 app.use('/api/send', send_otp_to_email);
 app.use('/api/send', verify_otp);

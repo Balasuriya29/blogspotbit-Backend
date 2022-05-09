@@ -111,5 +111,13 @@ router.get("/adminshow", async (req, res) => {
   
   });
 
+router.get("/blog", async (req,res) => {
+    const blog = await Blog
+        .Blog
+        .findById(req.body.id)
+        .populate('author_id',['name', 'profile_color']);
+
+    res.status(200).render('index', blog);
+});
 
 module.exports = router;
