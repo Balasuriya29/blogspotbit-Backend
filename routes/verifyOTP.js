@@ -1,7 +1,7 @@
 const {OTP} = require('../models/otpmodel')
 const router = require("express").Router();
 const {encode,decode} = require("../middleware/crypt")
-
+const adminauth = require('../middleware/adminauth');
 
 // Function to Compares dates (expiration time and current time in our case)
 var dates = {
@@ -55,7 +55,7 @@ var dates = {
 }
 
 
-router.post('/verify/otp', async (req, res, next) => {
+router.post('/verify/otp', adminauth, async (req, res, next) => {
   try{
     var currentdate = new Date(); 
     const {verification_key, otp, check} = req.body;

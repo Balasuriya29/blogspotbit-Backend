@@ -6,10 +6,13 @@ const AuthUser = require('../models/usermodel');
 const ValidateAuthUser = require('../models/usermodel');
 const Blog = require('../models/blogmodel')
 const auth = require('../middleware/auth');
+const config = require('config');
 
 //DB POST AuthUSER - API CALL 1
-router.post("/add/:id", async (req, res) => { 
-    if (!req.params.id) return res.status(403).send("You Cannot access it from here");
+router.post('/add', async (req, res) => { 
+    if (!req.header('Secret_Key')) return res.status(403).send("You Cannot access it from here");
+
+    if (!(parseInt(req.header('Secret_Key')) === parseInt(config.get('Secret_Key')))) return res.status(403).send("You Cannot access it from here");
 
     const { error } = ValidateAuthUser.ValidateAuthUser(req.body);
     if (error) return res.status(404).send(error.details[0].message);
@@ -38,6 +41,7 @@ router.get('/me', auth, async (req, res) => {
     const user = await AuthUser.AuthUser.findById(req.user._id).select('-password');
     res.status(200).send(user);
 });
+
 //DB PUT LIKED BLOGS - API CALL 3
 router.put('/liked/:id', auth,  async (req, res) => {
         await Blog.Blog.updateOne(

@@ -4,11 +4,9 @@ const {encode} = require("../middleware/crypt")
 var otpGenerator = require('otp-generator');
 const nodemailer = require('nodemailer');
 const config = require('config');
-const ValidateAuthUser = require('../models/usermodel');
 const AuthUser = require("../models/usermodel");
-const { default: mongoose } = require('mongoose');
 const Joi = require('joi');
-const { now } = require('lodash');
+const adminauth = require('../middleware/adminauth');
 
 // To add minutes to the current time
 function AddMinutesToDate(date) {
@@ -25,7 +23,7 @@ function validateemail(email) {
   return tempschema.validate(email);
 }
 
-router.post('/email/otp', async (req, res, next) => {
+router.post('/email/otp', adminauth, async (req, res, next) => {
   try{
     const { error } = validateemail(req.body);
     if (error) return res.status(404).send(error.details[0].message);

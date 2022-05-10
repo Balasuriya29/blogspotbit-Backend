@@ -11,9 +11,14 @@
 
 .navbar{
     color: white;
-    height: 50px;
+    height: 100px;
     background-color: #f50f0f;
 
+}
+
+.navbar h1{
+    padding-top: 25px;
+    padding-left: 15px;
 }
 
 h1{

@@ -3,5 +3,6 @@
     "DBUserName": "BlogSpotBIT_DBUserName",
     "DBPassword": "BlogSpotBIT_DBPassword",
     "Official_Mail": "BlogSpotBIT_Mail",
-    "Off_Mail_Password":"BlogSpotBIT_Password"
+    "Off_Mail_Password":"BlogSpotBIT_Password",
+    "Secret_Key": "BlogSpotBIT_Secret_Key"
 }

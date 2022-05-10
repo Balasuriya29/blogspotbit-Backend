@@ -5,9 +5,10 @@ const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const AuthUser = require('../models/usermodel');
+const adminauth = require('../middleware/adminauth');
 
 //DB POST Check method USER - API CALL 1
-router.post("/check", async (req, res) => {
+router.post("/check", adminauth, async (req, res) => {
     const { error } = validateUser(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 

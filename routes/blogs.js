@@ -6,6 +6,7 @@ const router = express.Router();
 const Blog = require('../models/blogmodel');
 const ValidateBlog = require('../models/blogmodel');
 const AuthUser = require('../models/usermodel');
+const adminauth = require('../middleware/adminauth')
 
 //DB POST - API CALL 1
 router.post("/add", auth ,async (req,res) => {
@@ -48,7 +49,7 @@ router.get("/delete/:id", auth, async (req, res) => {
 });
 
 //DB MY BLOGS SHOW - API CALL 4
-router.get("/showmyblogs/:id", async (req,res) => {
+router.get("/showmyblogs/:id", auth, async (req,res) => {
         const blogs = await Blog.Blog.find({
             author_id: req.params.id
         }).populate('author_id', ['name','profile_color'])
@@ -97,7 +98,7 @@ router.get("/showsavedblogs", auth, async (req,res) => {
     }
 });
 
-router.get("/adminshow", async (req, res) => {
+router.get("/adminshow", adminauth, async (req, res) => {
     const blogs = await Blog
         .Blog
         .find()
