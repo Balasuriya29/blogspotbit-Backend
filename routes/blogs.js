@@ -75,24 +75,36 @@ router.get("/showsavedblogs", auth, async (req,res) => {
     }
     else{
         user.saved.forEach(async element => {
-            const blog = await Blog.Blog.findOne({
-                _id : parseInt(element)
-            }).populate('author_id', ['name', 'profile_color'])
-            
-            if(blog){
-                blogs.push(blog);
-                const len = user.saved.length;
-                if(len == blogs.length){
-                    return res.status(200).send(blogs);
-                }
-            }
-            else{
+            if(user.reported.includes(element)){
                 blogs.push("NULL");
                 const len = user.saved.length;
                 if(len == blogs.length){
                     return res.status(200).send(blogs);
                 }
             }
+            else{
+                const blog = await Blog.Blog.findOne({
+                    _id : parseInt(element)
+
+                }).populate('author_id', ['name', 'profile_color'])
+
+                if(blog){
+                    blogs.push(blog);
+                    const len = user.saved.length;
+                    if(len == blogs.length){
+                        return res.status(200).send(blogs);
+                    }
+                }
+                else{
+                    blogs.push("NULL");
+                    const len = user.saved.length;
+                    if(len == blogs.length){
+                        return res.status(200).send(blogs);
+                    }
+                }
+                
+            }
+
             
         });
     }
