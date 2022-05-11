@@ -69,8 +69,7 @@ router.get("/showsavedblogs", auth, async (req,res) => {
    
     var blogs = []
 
-    var reported =  user.reported;
-    var saved =  user.saved;
+
 
     if(user.saved.length == 0){
         res.status(404).send("No Saved Blogs")
@@ -78,17 +77,6 @@ router.get("/showsavedblogs", auth, async (req,res) => {
     else{
         user.saved.forEach(async element => {
             if(user.reported.includes(element)){
-                await AuthUser.AuthUser.updateOne(
-                    {
-                        _id : req.user._id
-                    },
-        
-                    {
-                        $pull: {
-                            reported : element
-                        }
-                    }
-                )
                 blogs.push("NULL");
                 const len = user.saved.length;
                 if(len == blogs.length){
@@ -109,17 +97,6 @@ router.get("/showsavedblogs", auth, async (req,res) => {
                     }
                 }
                 else{
-                    await AuthUser.AuthUser.updateOne(
-                        {
-                            _id : req.user._id
-                        },
-            
-                        {
-                            $pull: {
-                                saved : element
-                            }
-                        }
-                    )
                     blogs.push("NULL");
                     const len = user.saved.length;
                     if(len == blogs.length){
