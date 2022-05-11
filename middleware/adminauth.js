@@ -10,12 +10,11 @@ module.exports = function (req, res, next){
 
     try {
         const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
-
         if(!decoded.isAdmin) return res.status(403).send("This is a Forbidden Call for You");
+        req.user = decoded;
         next();
+
     } catch (e) {
         res.status(400).send("Invalid Token!!!")
     }
-
-    
 }

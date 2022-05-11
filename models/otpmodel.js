@@ -1,10 +1,8 @@
 //Required Packages
 const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 //Schema Section
 const otpschema = new mongoose.Schema({
-    // id: Number,
     otp: {
         type: String,
         required: true

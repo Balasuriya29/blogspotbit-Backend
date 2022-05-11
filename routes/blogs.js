@@ -150,6 +150,10 @@ router.get("/blog/:id", async (req,res) => {
         .findById(req.params.id)
         .populate('author_id',['name', 'profile_color']);
 
+    if(!blog) return res.status(400).render('index', {
+        title: "This Blog Not Found",
+    });
+    
     res.status(200).render('index', blog);
 });
 

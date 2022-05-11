@@ -55,7 +55,7 @@ router.put('/liked/:id', auth,  async (req, res) => {
                 }
             });
         
-        const user = await AuthUser.AuthUser.updateOne(
+        await AuthUser.AuthUser.updateOne(
             {
                 _id: req.user._id
             },
@@ -64,7 +64,6 @@ router.put('/liked/:id', auth,  async (req, res) => {
                     liked_blogs : req.params.id
                 }
             });
-            if(!user) return res.status(404).send("No User Found");
 
         res.status(200).send('success');
 });
@@ -82,7 +81,7 @@ router.put('/rmliked/:id', auth,  async (req, res) => {
             }
         });
     
-        const user = await AuthUser.AuthUser.updateOne(
+        await AuthUser.AuthUser.updateOne(
             {
                 _id: req.user._id
             },
@@ -91,7 +90,6 @@ router.put('/rmliked/:id', auth,  async (req, res) => {
                     liked_blogs : req.params.id
                 }
             });
-        if(!user) return res.status(404).send("No User Found");
         res.status(200).send('success');
 });
 
@@ -101,14 +99,11 @@ router.get('/delete', auth , async (req, res) => {
        _id : req.user._id
     });
 
-
-
     res.status(200).send(user);
 });
 
 //DB UPDATE SAVED BLOGS ID - API CALL 6
 router.put("/saved/:id", auth, async (req, res) => {
-
         await AuthUser.AuthUser.updateOne(
             {
                 _id : req.user._id
@@ -139,7 +134,6 @@ router.put("/rmsaved/:id", auth, async (req, res) => {
         )
 
         res.status(200).send(user);
-
 });
 
 //DB UPDATE REPORT BY ID - API CALL 8

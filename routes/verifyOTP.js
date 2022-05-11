@@ -54,7 +54,6 @@ var dates = {
     }
 }
 
-
 router.post('/verify/otp', adminauth, async (req, res, next) => {
   try{
     var currentdate = new Date(); 

@@ -17,8 +17,7 @@ const blogSchema = new mongoose.Schema({
     report : {type: Number, default: parseInt(0)},
     report_reason : {
         type:Map,
-        of: Number,
-        default: parseInt(0),
+        of: {type: Number, default: parseInt(0)},
         
     }
 }, { _id: false });
