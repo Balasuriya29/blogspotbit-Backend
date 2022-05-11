@@ -1,6 +1,4 @@
 const express = require('express');
-const { result, isNaN, isNumber } = require('lodash');
-const { BOOLEAN } = require('sequelize');
 const auth = require('../middleware/auth');
 const router = express.Router();
 const Blog = require('../models/blogmodel');
@@ -16,7 +14,8 @@ router.post("/add", auth ,async (req,res) => {
     const blog = new Blog.Blog({
         title: req.body.title,
         author_id: req.body.author_id,
-        content: req.body.content,   
+        content: req.body.content,  
+        report_reason: req.body.report_reason
     });
     const result = await blog.save();
     res.status(200).send(result);
@@ -76,6 +75,17 @@ router.get("/showsavedblogs", auth, async (req,res) => {
     else{
         user.saved.forEach(async element => {
             if(user.reported.includes(element)){
+                await AuthUser.AuthUser.updateOne(
+                    {
+                        _id : req.user._id
+                    },
+        
+                    {
+                        $pull: {
+                            saved : element
+                        }
+                    }
+                )
                 blogs.push("NULL");
                 const len = user.saved.length;
                 if(len == blogs.length){
@@ -96,20 +106,29 @@ router.get("/showsavedblogs", auth, async (req,res) => {
                     }
                 }
                 else{
+                    await AuthUser.AuthUser.updateOne(
+                        {
+                            _id : req.user._id
+                        },
+            
+                        {
+                            $pull: {
+                                saved : element
+                            }
+                        }
+                    )
                     blogs.push("NULL");
                     const len = user.saved.length;
                     if(len == blogs.length){
                         return res.status(200).send(blogs);
                     }
-                }
-                
+                }   
             }
-
-            
         });
     }
 });
 
+//DB SAVED BLOGS SHOW - API CALL 6
 router.get("/adminshow", adminauth, async (req, res) => {
     const blogs = await Blog
         .Blog
@@ -124,6 +143,7 @@ router.get("/adminshow", adminauth, async (req, res) => {
   
   });
 
+//DB SAVED BLOGS SHOW - API CALL 7
 router.get("/blog/:id", async (req,res) => {
     const blog = await Blog
         .Blog

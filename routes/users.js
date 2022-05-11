@@ -97,11 +97,11 @@ router.put('/rmliked/:id', auth,  async (req, res) => {
 
 //DB DELETE USER BLOGS - API CAll 5
 router.get('/delete', auth , async (req, res) => {
-    const user = await AuthUser.AuthUser.deleteOne({
+    await AuthUser.AuthUser.deleteOne({
        _id : req.user._id
     });
 
-    if(!user) return res.status(404).send("Nothing found");
+
 
     res.status(200).send(user);
 });
@@ -109,7 +109,7 @@ router.get('/delete', auth , async (req, res) => {
 //DB UPDATE SAVED BLOGS ID - API CALL 6
 router.put("/saved/:id", auth, async (req, res) => {
 
-        const user = await AuthUser.AuthUser.updateOne(
+        await AuthUser.AuthUser.updateOne(
             {
                 _id : req.user._id
             },
@@ -120,13 +120,13 @@ router.put("/saved/:id", auth, async (req, res) => {
                 }
             }
         )
-        if(!user) return res.status(404).send("Nothing found");
+
         res.status(200).send(user);
 });
 
 //DB UPDATE SAVED BLOGS ID - API CALL 7
 router.put("/rmsaved/:id", auth, async (req, res) => {
-        const user = await AuthUser.AuthUser.updateOne(
+        await AuthUser.AuthUser.updateOne(
             {
                 _id : req.user._id
             },
@@ -137,7 +137,7 @@ router.put("/rmsaved/:id", auth, async (req, res) => {
                 }
             }
         )
-        if(!user) return res.status(404).send("Nothing found");
+
         res.status(200).send(user);
 
 });
@@ -147,21 +147,34 @@ router.put("/report/:id", auth, async (req, res) => {
     await Blog.Blog.updateOne(
         {
             _id:req.params.id
-        }
-        ,
+        },
         {
-            $inc: {
-                report: 1
-            }
+            $inc:{
+                report: 1,
+                "report_reason.Abusive" : req.body.report_reason.Abusive,
+                "report_reason.Irrelavent" : req.body.report_reason.Irrelavent,
+                "report_reason.Spam or Suspicious" : req.body.report_reason.Spam,
+            },
         });
-    
+
         const blog = await Blog.Blog.findById(req.params.id);
+
         if(blog.report >= 5){
+            const reported_blog = await Blog.reportBlog({
+                title: blog.title,
+                author_id: blog.author_id,
+                content: blog.content,
+                likes: blog.likes,
+                report : blog.report,
+                report_reason: blog.report_reason,
+            });
+
+            await reported_blog.save();
+
             await Blog.Blog.deleteOne({
                 _id: parseInt(req.params.id)
             });
         }
-
         await AuthUser.AuthUser.updateOne(
             {
                 _id: req.user._id
@@ -169,10 +182,10 @@ router.put("/report/:id", auth, async (req, res) => {
             {
                 $push: {
                     reported : req.params.id
-                }
+                },  
             });
         
-    res.status(200).send('success')
+    res.status(200).send('success');
 });
 
 
