@@ -150,7 +150,6 @@ router.put("/report/:id", auth, async (req, res) => {
                 "report_reason.Spam or Suspicious" : req.body.report_reason.Spam,
             },
         });
-
         const blog = await Blog.Blog.findById(req.params.id);
 
         if(blog.report >= 5){
