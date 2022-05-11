@@ -82,7 +82,7 @@ router.get("/showsavedblogs", auth, async (req,res) => {
         
                     {
                         $pull: {
-                            saved : element
+                            reported : element
                         }
                     }
                 )
