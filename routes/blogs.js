@@ -69,6 +69,9 @@ router.get("/showsavedblogs", auth, async (req,res) => {
    
     var blogs = []
 
+    var reported =  user.reported;
+    var saved =  user.saved;
+
     if(user.saved.length == 0){
         res.status(404).send("No Saved Blogs")
     }
