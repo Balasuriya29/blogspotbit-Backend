@@ -69,8 +69,6 @@ router.get("/showsavedblogs", auth, async (req,res) => {
    
     var blogs = []
 
-
-
     if(user.saved.length == 0){
         res.status(404).send("No Saved Blogs")
     }

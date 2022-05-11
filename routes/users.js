@@ -98,8 +98,6 @@ router.get('/delete', auth , async (req, res) => {
     await AuthUser.AuthUser.deleteOne({
        _id : req.user._id
     });
-
-    res.status(200).send(user);
 });
 
 //DB UPDATE SAVED BLOGS ID - API CALL 6
@@ -116,7 +114,6 @@ router.put("/saved/:id", auth, async (req, res) => {
             }
         )
 
-        res.status(200).send(user);
 });
 
 //DB UPDATE SAVED BLOGS ID - API CALL 7
@@ -133,7 +130,6 @@ router.put("/rmsaved/:id", auth, async (req, res) => {
             }
         )
 
-        res.status(200).send(user);
 });
 
 //DB UPDATE REPORT BY ID - API CALL 8
