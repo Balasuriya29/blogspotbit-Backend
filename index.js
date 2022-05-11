@@ -58,5 +58,5 @@ app.get("/", (req,res) => {
     res.status(200).send("Everything is Working Perfectly!!!");
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
 app.listen(PORT,() => console.log(`Listening at ${PORT}`))
