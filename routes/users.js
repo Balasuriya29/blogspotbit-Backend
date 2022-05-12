@@ -112,8 +112,10 @@ router.put("/saved/:id", auth, async (req, res) => {
                     saved : req.params.id
                 }
             }
-        )
-
+        ).then((v) => {
+            res.status(200).send("sucess");
+        })
+        
 });
 
 //DB UPDATE SAVED BLOGS ID - API CALL 7
@@ -128,8 +130,10 @@ router.put("/rmsaved/:id", auth, async (req, res) => {
                     saved : req.params.id
                 }
             }
-        )
-
+        ).then((v) => {
+            res.status(200).send("sucess");
+        })
+        
 });
 
 //DB UPDATE REPORT BY ID - API CALL 8
