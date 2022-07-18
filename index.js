@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const mongoose_morgan = require('mongoose-morgan')
 require('dotenv').config();
 const express = require('express');
-const path = require('path');
 const helmet = require('helmet');
 const connection = require('./connection');
 const config = require('config');

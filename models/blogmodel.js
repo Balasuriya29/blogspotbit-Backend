@@ -18,7 +18,6 @@ const blogSchema = new mongoose.Schema({
     report_reason : {
         type:Map,
         of: {type: Number, default: parseInt(0)},
-        
     }
 }, { _id: false });
 blogSchema.plugin(AutoIncrement);
