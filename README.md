@@ -24,7 +24,7 @@ Since, This Repo contains only the BackEnd Node Js File, This Link will direct y
 
 #### Test API(to check server is running without error)
 
-    https://blog-spot-bit-2022.herokuapp.com/
+    https://blogspotbit.onrender.com/
 
 * All the APIs except the above is protected with jwt tokens 
 
